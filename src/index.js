@@ -49,8 +49,8 @@ const addTodo2CompleteList = (text) => {
   div.appendChild(p);
   div.appendChild(createReturnButton());
 
-  // 未完了リストに追加（ulタグの下にliタグを追加）
-  addIncompleteList(li);
+  // 完了リストに追加（ulタグの下にliタグを追加）
+  addCompleteList(li);
 };
 
 //================
@@ -62,27 +62,9 @@ const createReturnButton = () => {
 
   button.innerText = "戻す";
   button.addEventListener("click", () => {
-    const li = button.parentNode.parentNode;
-    const div = button.parentNode;
-
-    // TODO内の内容テキストを取得
-    const text = button.parentNode.div.firstElementChild.innerText;
-
-    // divを初期化
-    div.textContent = null;
-
-    // pタグ
-    const p = document.createElement("p");
-    p.innerText = text;
-
-    // divに追加
-    div.appendChild(p);
-    div.appendChild(createCompleteButton());
-    div.appendChild(createDeleteButton());
-
-    // 完了ボタンから削除し、未完了ボタンに追加
-    deleteFromCompleteList(li);
-    addIncompleteList(li);
+    const text = button.parentNode.firstElementChild.innerText;
+    deleteFromCompleteList(button.parentNode.parentNode);
+    addTodo2IncompleteList(text);
   });
 
   return button;
@@ -94,27 +76,11 @@ const createCompleteButton = () => {
 
   button.innerText = "完了";
   button.addEventListener("click", () => {
-    const li = button.parentNode.parentNode;
-    const div = button.parentNode;
-
-    // TODO内の内容テキストを取得
-    const text = div.firstElementChild.innerText;
-
-    // divを初期化
-    div.textContent = null;
-
-    // pタグ
-    const p = document.createElement("p");
-    p.innerText = text;
-
-    // divに追加
-    div.appendChild(p);
-    div.appendChild(createReturnButton());
-
-    // 未完了ボタンから削除し、完了ボタンに追加
-    deleteFromIncompleteList(li);
-    addCompleteList(li);
+    const text = button.parentNode.firstElementChild.innerText;
+    deleteFromIncompleteList(button.parentNode.parentNode);
+    addTodo2CompleteList(text);
   });
+
   return button;
 };
 
